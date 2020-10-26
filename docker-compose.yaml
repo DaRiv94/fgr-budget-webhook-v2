@@ -1,0 +1,21 @@
+
+
+
+version: '3.8'
+
+networks:
+    budget:
+      external: true
+
+services:
+    webhook:
+        build: .
+        ports:
+            - "3000:3000"
+        volumes:
+            - "/app/nodemodules"
+            - ".:/app"
+        # command: node_modules/.bin/nodemon index.js
+        networks:
+            - budget
+        env_file: .env

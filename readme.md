@@ -1,8 +1,22 @@
 
 When Starting a Postgres container locally run,
 ```
-docker run --name pg4 -e POSTGRES_PASSWORD='postgres' -e POSTGRES_USER='postgres' -e POSTGRES_DB=local_fgr_budget -v pgdata:/var/lib/postgresql/data -p 5433:5432 postgres
+docker run --name pg1 -e POSTGRES_PASSWORD='postgres' -e POSTGRES_USER='postgres' -e POSTGRES_DB=local_fgr_budget -v pgdata:/var/lib/postgresql/data -p 5432:5432 --network budget postgres
 ```
+
+Build container if you need to
+```
+docker build -t fgrnode1 .
+```
+
+start up container for development using nodemon
+```
+docker run -it --network budget -v ${pwd}:/app -v/app/node_modules  --env-file .env -p 3000:3000 fgrnode2 npm run app
+```
+
+*If you are starting with a fresh database and container*
+`docker exec -it <mycontainer> npx sequelize db:migrate`
+
 
 
 .env file (and examples)
