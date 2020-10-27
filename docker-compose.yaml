@@ -27,7 +27,7 @@ services:
             - "pg3:/var/lib/postgresql/data"
     webhook:
         container_name: webhook_backend
-        image: fgrnode1
+        build: .
         ports:
             - "3000:3000"
         volumes:
