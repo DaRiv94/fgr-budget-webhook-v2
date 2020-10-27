@@ -4,6 +4,8 @@ When Starting a Postgres container locally run,
 docker run --name pg1 -e POSTGRES_PASSWORD='postgres' -e POSTGRES_USER='postgres' -e POSTGRES_DB=local_fgr_budget -v pgdata:/var/lib/postgresql/data -p 5432:5432 --network budget postgres
 ```
 
+
+
 Build container if you need to
 ```
 docker build -t fgrnode1 .
@@ -16,6 +18,19 @@ docker run -it --network budget -v ${pwd}:/app -v/app/node_modules  --env-file .
 
 *If you are starting with a fresh database and container*
 `docker exec -it <mycontainer> npx sequelize db:migrate`
+
+
+
+
+Start up docker compose
+```
+docker-compose up
+```
+
+Then if you have a fresh volume or new database check the migration status with `docker exec webhook_backend npx sequelize db:migrate:status`
+
+and run migrations with `docker exec webhook_backend npx sequelize db:migrate`
+
 
 
 
