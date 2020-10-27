@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
                 access_token =process.env.PLAID_ALLY_ACCESS_TOKEN;
             }else{
                 console.log("Invalid item_id");
-                context.log("Invalid item_id");
+               
             }
 
 
@@ -49,12 +49,12 @@ router.post('/', async (req, res) => {
             let secret = process.env.PLAID_DEV_SECRET;
             let start_date = moment().subtract(10, 'days').format('YYYY-MM-DD');
             let end_date = moment().format('YYYY-MM-DD');
-            context.log("---------------------------")
-            context.log("client_id", client_id)       
-            context.log("secret", secret)       
-            context.log("access_token", access_token)       
-            context.log("start_date", start_date)       
-            context.log("end_date", end_date)       
+            console.log("---------------------------")
+            console.log("client_id", client_id)       
+            console.log("secret", secret)       
+            console.log("access_token", access_token)       
+            console.log("start_date", start_date)       
+            console.log("end_date", end_date)       
             data={
                 client_id, secret, access_token, start_date, end_date
             }           
@@ -66,7 +66,7 @@ router.post('/', async (req, res) => {
 
                 let new_transactions=[]
                 console.log("Console- Fetching recent transaction data from plaid...");
-                context.log("Context- Fetching recent transaction data from plaid...");
+             
 
                 //remove accounts in mongo compass to test this functionality.
                 if(response.data && response.data.accounts && response.data.transactions){
@@ -77,15 +77,13 @@ router.post('/', async (req, res) => {
 
                 }
                 console.log(`${new_transactions.length} new transactions`)
-                context.log(`${new_transactions.length} new transactions`)
+              
                 if(new_transactions.length != 0){
 
                     if (!ThisIsATest) {
                         Sendgrid.send_New_Transactions_EMAIL(context, req, new_transactions);
                     }else{
-                        context.log("------------------------------------------")
-                        context.log("EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
-                        context.log("------------------------------------------")
+                  
                         console.log("------------------------------------------")
                         console.log("EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
                         console.log("------------------------------------------")
@@ -98,9 +96,7 @@ router.post('/', async (req, res) => {
                 if (!ThisIsATest) {
                     Sendgrid.send_Error_Notification_Email(context, req, error, "Transaction Data Error");
                 }else{
-                    context.log("------------------------------------------")
-                    context.log("EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
-                    context.log("------------------------------------------")
+                  
                     console.log("------------------------------------------")
                     console.log("EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
                     console.log("------------------------------------------")
@@ -108,23 +104,32 @@ router.post('/', async (req, res) => {
             }
         }
         }else{
+            //Test locally by giving webhook_type != Transactions in request
+            if (!ThisIsATest) {
+                Sendgrid.send_NON_Transaction_Webhook_Email(context, req);
+            }else{
+         
+                console.log("------------------------------------------")
+                console.log("EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
+                console.log("------------------------------------------")
+            }
 
         }
 
-        context.res = {
+        return res.send({
             // status: 200, /* Defaults to 200 */
             body: "received"
-        };
+        });
     }
     else {
+        //THIS has been tested!! by just not sending a post body.
+        // although I need to look up how to respond with a body in response again.
         console.log('No Webhook type detected.');
-        context.log('No Webhook type detected.');
-        console.log("Request: ", req);
-        context.log("Request: ", req);
-        context.res = {
-            status: 400,
-            body: "plaid webhook body required"
-        };
+        // console.log("Request: ", req);
+        return res.sendStatus(400);
+        // return res.sendStatus(400).send({
+        //     body: "plaid webhook body required"
+        // });
     }
 
     /////////////////////
