@@ -1,8 +1,8 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = require("../db/sequelize");
+
+
+
   class WebhookNotification extends Model {
     /**
      * Helper method for defining associations.
@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
+
   WebhookNotification.init({
     webhook_type: DataTypes.STRING,
     webhook_code: DataTypes.STRING,
@@ -24,5 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'WebhookNotification',
   });
-  return WebhookNotification;
-};
+
+  // the defined model is the class itself
+  console.log(`WebhookNotification Model: ${WebhookNotification === sequelize.models.WebhookNotification}`); // true
+
+  module.exports = WebhookNotification;

@@ -15,11 +15,11 @@ class Sendgrid{
             console.log("send_Error_Notification_Email CALLED")
     }
 
-    static send_NON_Transaction_Webhook_Email(context, req, subject='Non-Transaction Webhook',
+    static send_NON_Transaction_Default_updated_Webhook_Email(context, req, subject='Non-Transaction Webhook',
     to_email='dariv94@gmail.com', 
     from_email='frankgriviera@outlook.com',
     text=' Default text' ){
-        console.log("send_NON_Transaction_Webhook_Email CALLED")
+        console.log("send_NON_Transaction_Default_updated_Webhook_Email CALLED")
     }
 
 

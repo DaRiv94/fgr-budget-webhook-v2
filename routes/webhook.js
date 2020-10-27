@@ -29,8 +29,11 @@ router.post('/', async (req, res) => {
     /////START HERE TO UPDATE___________________________________________________________________
     //_______________________________________________________________________________________
     ///UPDATE FUNCTION!!
-    let webhookNotification = CreateNewWebhookNotification(context, req, ThisIsATest);                   
-
+    let webhookNotification = await CreateNewWebhookNotification(context, req, ThisIsATest);
+    if (webhookNotification.error){
+        return res.status(500).json({"detail":"There was an error creating webhook","error": webhookNotification});
+    }                   
+    console.log("------webhookNotification",webhookNotification)
     if (req.body.webhook_type=="TRANSACTIONS"){
 
         if (webhookNotification){
