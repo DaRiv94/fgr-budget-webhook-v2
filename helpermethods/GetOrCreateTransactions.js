@@ -2,6 +2,7 @@ const Transaction = require('../models/Transaction');
 
 module.exports= (context, response, ThisIsATest)=>{
     console.log("GetOrCreateTransaction Called")
+    return [{"transaction":true}]
     // return new Promise(async (resolve,reject)=>{
 
     //     //{ "date": {$gt: new Date('2019-11-20')} } use this to filter in mongodb compass to find transaction near current date and remove to test this functionality.

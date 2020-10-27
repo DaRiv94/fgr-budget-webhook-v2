@@ -4,7 +4,7 @@
 version: '3.8'
 
 volumes:
-    pg3:
+    postgres_db_volume:
       external: true
 
 networks:
@@ -24,7 +24,7 @@ services:
             - POSTGRES_USER=postgres
             - POSTGRES_DB=local_fgr_budget
         volumes:
-            - "pg3:/var/lib/postgresql/data"
+            - "postgres_db_volume:/var/lib/postgresql/data"
     webhook:
         container_name: webhook_backend
         build: .

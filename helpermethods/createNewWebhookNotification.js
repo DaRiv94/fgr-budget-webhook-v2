@@ -1,9 +1,10 @@
-const Sendgrid = require("../emails/Sendgrid");
+const Sendgrid = require("../services/Sendgrid");
 const moment = require('moment');
 const WebhookNotification = require('../models/WebhookNotification');
 
 module.exports = (context, req, ThisIsATest)=>{
     console.log("createNewWebhookNotification called!")
+    return {"webhooknotification":true}
     // let webhookNotification={}
     // if(req.body.webhook_type=="TRANSACTIONS"){
     //     let webhook_type = req.body.webhook_type;

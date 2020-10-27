@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class WebhookNotificationSchema extends Model {
+  class WebhookNotification extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  WebhookNotificationSchema.init({
+  WebhookNotification.init({
     webhook_type: DataTypes.STRING,
     webhook_code: DataTypes.STRING,
     item_id: DataTypes.STRING,
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     metadata: DataTypes.JSONB
   }, {
     sequelize,
-    modelName: 'WebhookNotificationSchema',
+    modelName: 'WebhookNotification',
   });
-  return WebhookNotificationSchema;
+  return WebhookNotification;
 };

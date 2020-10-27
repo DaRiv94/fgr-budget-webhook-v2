@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('WebhookNotificationSchemas', {
+    await queryInterface.createTable('WebhookNotifications', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -37,6 +37,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('WebhookNotificationSchemas');
+    await queryInterface.dropTable('WebhookNotifications');
   }
 };

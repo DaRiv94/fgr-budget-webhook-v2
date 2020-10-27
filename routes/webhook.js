@@ -21,10 +21,10 @@ router.post('/', async (req, res) => {
     //Imports
     const axios = require('axios');
     const moment = require('moment');
-    const Sendgrid = require("./emails/Sendgrid");
-    const CreateNewWebhookNotification = require("./helpermethods/createNewWebhookNotification");
-    const GetOrCreateAccount = require("./helpermethods/GetOrCreateAccounts");
-    const GetOrCreateTransactions = require("./helpermethods/GetOrCreateTransactions");
+    const Sendgrid = require("../services/Sendgrid");
+    const CreateNewWebhookNotification = require("../helpermethods/createNewWebhookNotification");
+    const GetOrCreateAccount = require("../helpermethods/GetOrCreateAccounts");
+    const GetOrCreateTransactions = require("../helpermethods/GetOrCreateTransactions");
     
     /////START HERE TO UPDATE___________________________________________________________________
     //_______________________________________________________________________________________
@@ -60,49 +60,49 @@ router.post('/', async (req, res) => {
             }           
 
             
-            //Can I use async await here????
-            try{
-                response = await axios.post('https://development.plaid.com/transactions/get',data);
+                
+                try{
+                    response = await axios.post('https://development.plaid.com/transactions/get',data);
 
-                let new_transactions=[]
-                console.log("Console- Fetching recent transaction data from plaid...");
-             
+                    let new_transactions=[]
+                    console.log("Console- Fetching recent transaction data from plaid...");
+                
 
-                //remove accounts in mongo compass to test this functionality.
-                if(response.data && response.data.accounts && response.data.transactions){
+                    //remove accounts in mongo compass to test this functionality.
+                    if(response.data && response.data.accounts && response.data.transactions){
 
-                    await GetOrCreateAccount(context, req, response, ThisIsATest);
+                        await GetOrCreateAccount(context, req, response, ThisIsATest);
 
-                    new_transactions = await GetOrCreateTransactions(context, response, ThisIsATest)
+                        new_transactions = await GetOrCreateTransactions(context, response, ThisIsATest)
 
-                }
-                console.log(`${new_transactions.length} new transactions`)
+                    }
+                    console.log(`${new_transactions.length} new transactions`)
               
-                if(new_transactions.length != 0){
+                    if(new_transactions.length != 0){
 
+                        if (!ThisIsATest) {
+                            Sendgrid.send_New_Transactions_EMAIL(context, req, new_transactions);
+                        }else{
+                    
+                            console.log("------------------------------------------")
+                            console.log("EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
+                            console.log("------------------------------------------")
+                        }
+
+                    }
+
+                }catch(error){
+                    //Test locally by deleting a new transaction from db a bad item_id in request
                     if (!ThisIsATest) {
-                        Sendgrid.send_New_Transactions_EMAIL(context, req, new_transactions);
+                        Sendgrid.send_Error_Notification_Email(context, req, error, "Transaction Data Error");
                     }else{
-                  
+                    
                         console.log("------------------------------------------")
                         console.log("EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
                         console.log("------------------------------------------")
                     }
-
                 }
-
-            }catch(error){
-                //Test locally by deleting a new transaction from db a bad item_id in request
-                if (!ThisIsATest) {
-                    Sendgrid.send_Error_Notification_Email(context, req, error, "Transaction Data Error");
-                }else{
-                  
-                    console.log("------------------------------------------")
-                    console.log("EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
-                    console.log("------------------------------------------")
-                }
-            }
-        }
+            }   
         }else{
             //Test locally by giving webhook_type != Transactions in request
             if (!ThisIsATest) {
