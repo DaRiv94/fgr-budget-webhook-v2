@@ -13,9 +13,10 @@ services:
         ports:
             - "3000:3000"
         volumes:
-            - "/app/nodemodules"
+            - "/app/node_modules"
             - ".:/app"
-        # command: node_modules/.bin/nodemon index.js
+        command: npm run app
+        # command: node_modules/.bin/nodemon -L index.js
         networks:
             - budget
         env_file: .env
