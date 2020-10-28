@@ -7,7 +7,7 @@ class Sendgrid{
         subject='New Transactions', text='New Transactions EMAIL Default text' ){
             console.log("send_New_Transactions_EMAIL CALLED")
     }
-    ///
+    
     static send_Error_Notification_Email(context, req, error, subject='Error Notification',
         to_email='dariv94@gmail.com', 
         from_email='frankgriviera@outlook.com',
@@ -21,8 +21,5 @@ class Sendgrid{
     text=' Default text' ){
         console.log("send_NON_Transaction_Default_updated_Webhook_Email CALLED")
     }
-
-
 }
-
 module.exports=Sendgrid;
