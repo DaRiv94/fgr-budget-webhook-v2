@@ -1,22 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+// const User = require('../models/User');
 
 router.post('/', async (req, res) => {
-    // try {
-    //     return res.json({"webhookHit":true})
-    // } catch (error) {
-    //     console.error(error)
-    // }
-    //////////////////////
-    console.log("console.log logging at begining");
+
+    //Handle No Request Body, No Plaid Webhook Type
+    if (!req.body || !req.body.webhook_type){
+        console.log('No Plaid Webhook type detected.');
+        return res.status(400).json({detail:"plaid webhook body required"});
+    }
+
     let context={}
 
-    if (req.body && req.body.webhook_type) {
-        ThisIsATest=false;
-        if (req.body.test && req.body.test==true){
-            ThisIsATest=true;
-        }
+    //Check if The webhook is a test
+    ThisIsATest=false;
+    if (req.body.test && req.body.test==true){
+        ThisIsATest=true;
+    }
 
     //Imports
     const axios = require('axios');
@@ -26,17 +26,18 @@ router.post('/', async (req, res) => {
     const GetOrCreateAccount = require("../helpermethods/GetOrCreateAccounts");
     const GetOrCreateTransactions = require("../helpermethods/GetOrCreateTransactions");
     
-    /////START HERE TO UPDATE___________________________________________________________________
-    //_______________________________________________________________________________________
-    ///UPDATE FUNCTION!!
-    let webhookNotification = await CreateNewWebhookNotification(context, req, ThisIsATest);
+    //Create Webhook Notification
+    let webhookNotification = await CreateNewWebhookNotification(req, ThisIsATest);
     if (webhookNotification.error){
-        return res.status(500).json({"detail":"There was an error creating webhook","error": webhookNotification});
+        return res.status(500).json({"detail":"There was an error creating webhook","error": webhookNotification.error.toString()});
     }                   
-    console.log("------webhookNotification",webhookNotification)
-    if (req.body.webhook_type=="TRANSACTIONS"){
 
-        if (webhookNotification){
+    if (req.body.webhook_type=="TRANSACTIONS" && req.body.webhook_code=="DEFAULT_UPDATE"){
+
+            //I should create an Item table, with id, plaid_item_id, plaid_item_access_token
+            // When I do this at first I will need to INSERT INTO the table
+            // But then When I create the account update service I want to have a user signup and 
+            //   have it add to the item table via another endpoint on this service
             let access_token=""
             if(req.body.item_id==process.env.MSUFCU_ITEM_ID){
                 access_token =process.env.PLAID_MSUFCU_ACCESS_TOKEN;
@@ -44,7 +45,14 @@ router.post('/', async (req, res) => {
                 access_token =process.env.PLAID_ALLY_ACCESS_TOKEN;
             }else{
                 console.log("Invalid item_id");
-               
+                if (!ThisIsATest) {
+                    Sendgrid.send_Error_Notification_Email(req, error, "Invalid item_id Error");
+                }else{
+                    console.log("------------------------------------------")
+                    console.log("send_Error_Notification_Email EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
+                    console.log("------------------------------------------")
+                }
+                return res.status(400).json({detail:"Invalid plaid item_id"});
             }
 
 
@@ -65,77 +73,56 @@ router.post('/', async (req, res) => {
             
                 
                 try{
-                    response = await axios.post('https://development.plaid.com/transactions/get',data);
+                    response = await axios.post('https://development.plaid.com/transactions/get', data);
 
                     let new_transactions=[]
                     console.log("Console- Fetching recent transaction data from plaid...");
                 
-
                     //remove accounts in mongo compass to test this functionality.
                     if(response.data && response.data.accounts && response.data.transactions){
-
-                        await GetOrCreateAccount(context, req, response, ThisIsATest);
-
-                        new_transactions = await GetOrCreateTransactions(context, response, ThisIsATest)
-
+                        await GetOrCreateAccount(req, response, ThisIsATest);
+                        new_transactions = await GetOrCreateTransactions(response, ThisIsATest)
                     }
                     console.log(`${new_transactions.length} new transactions`)
               
                     if(new_transactions.length != 0){
-
                         if (!ThisIsATest) {
-                            Sendgrid.send_New_Transactions_EMAIL(context, req, new_transactions);
+                            Sendgrid.send_New_Transactions_EMAIL(req, new_transactions);
                         }else{
                     
                             console.log("------------------------------------------")
-                            console.log("EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
+                            console.log("send_New_Transactions_EMAIL EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
                             console.log("------------------------------------------")
                         }
-
                     }
 
                 }catch(error){
-                    //Test locally by deleting a new transaction from db a bad item_id in request
+                    //Test locally by deleting a new transaction from db and using a bad item_id in request
                     if (!ThisIsATest) {
-                        Sendgrid.send_Error_Notification_Email(context, req, error, "Transaction Data Error");
+                        Sendgrid.send_Error_Notification_Email(req, error, "Transaction Data Error");
                     }else{
-                    
                         console.log("------------------------------------------")
-                        console.log("EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
+                        console.log("send_Error_Notification_Email EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
                         console.log("------------------------------------------")
                     }
                 }
-            }   
+              
+    }else{
+        //Test locally by giving webhook_type != Transactions in request
+        if (!ThisIsATest) {
+            Sendgrid.send_NON_Transaction_Default_updated_Webhook_Email(context, req);
         }else{
-            //Test locally by giving webhook_type != Transactions in request
-            if (!ThisIsATest) {
-                Sendgrid.send_NON_Transaction_Webhook_Email(context, req);
-            }else{
-         
-                console.log("------------------------------------------")
-                console.log("EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
-                console.log("------------------------------------------")
-            }
-
+        
+            console.log("------------------------------------------")
+            console.log("send_NON_Transaction_Default_updated_Webhook_Email EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
+            console.log("------------------------------------------")
         }
 
-        return res.send({
-            // status: 200, /* Defaults to 200 */
-            body: "received"
-        });
-    }
-    else {
-        //THIS has been tested!! by just not sending a post body.
-        // although I need to look up how to respond with a body in response again.
-        console.log('No Webhook type detected.');
-        // console.log("Request: ", req);
-        return res.sendStatus(400);
-        // return res.sendStatus(400).send({
-        //     body: "plaid webhook body required"
-        // });
     }
 
-    /////////////////////
+    return res.status(200).json({
+        detail: "webhook received"
+    });
 })
 
 module.exports = router;

@@ -1,8 +1,6 @@
-const Sendgrid = require("../services/Sendgrid");
-const moment = require('moment');
 const WebhookNotification = require('../models/WebhookNotification');
 
-module.exports = async (context, req, ThisIsATest)=>{
+module.exports = async ( req, ThisIsATest)=>{
     console.log("createNewWebhookNotification called!")
 
     let webhookNotification={}
@@ -20,14 +18,14 @@ module.exports = async (context, req, ThisIsATest)=>{
 
         if (!ThisIsATest) {
             webhookNotification.save()
-            context.log("webhookNotification Saved!")
+            console.log("webhookNotification Saved!")
         }else{
-            context.log("webhookNotification NOT Saved During Tests")
+            console.log("webhookNotification NOT Saved During Tests")
         }
         return webhookNotification
     }catch(e){
         console.log("Error in createNewWebhookNotification",e)
-        return {"error":e}
+        return {error:e}
     }
 
 }
