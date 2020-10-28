@@ -55,7 +55,6 @@ router.post('/', async (req, res) => {
                 return res.status(400).json({detail:"Invalid plaid item_id"});
             }
 
-
             let client_id = process.env.PLAID_DEV_CLIENT_ID;
             let secret = process.env.PLAID_DEV_SECRET;
             let start_date = moment().subtract(10, 'days').format('YYYY-MM-DD');
@@ -69,9 +68,6 @@ router.post('/', async (req, res) => {
             data={
                 client_id, secret, access_token, start_date, end_date
             }           
-
-            
-                
                 try{
                     response = await axios.post('https://development.plaid.com/transactions/get', data);
 
@@ -89,13 +85,11 @@ router.post('/', async (req, res) => {
                         if (!ThisIsATest) {
                             Sendgrid.send_New_Transactions_EMAIL(req, new_transactions);
                         }else{
-                    
                             console.log("------------------------------------------")
                             console.log("send_New_Transactions_EMAIL EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
                             console.log("------------------------------------------")
                         }
                     }
-
                 }catch(error){
                     //Test locally by deleting a new transaction from db and using a bad item_id in request
                     if (!ThisIsATest) {
@@ -103,26 +97,26 @@ router.post('/', async (req, res) => {
                     }else{
                         console.log("------------------------------------------")
                         console.log("send_Error_Notification_Email EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
+                        if (error.response && error.response.data){
+                            console.log("send_Error_Notification_Email error: ",error.response.data)
+                        }else{
+                            console.log("send_Error_Notification_Email error: ",error)
+                        }
                         console.log("------------------------------------------")
                     }
                 }
-              
     }else{
         //Test locally by giving webhook_type != Transactions in request
         if (!ThisIsATest) {
             Sendgrid.send_NON_Transaction_Default_updated_Webhook_Email(context, req);
         }else{
-        
             console.log("------------------------------------------")
             console.log("send_NON_Transaction_Default_updated_Webhook_Email EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
             console.log("------------------------------------------")
         }
-
     }
-
     return res.status(200).json({
         detail: "webhook received"
     });
 })
-
 module.exports = router;

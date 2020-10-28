@@ -20,10 +20,10 @@ module.exports = {
       official_name: {
         type: Sequelize.STRING
       },
-      available_balence: {
+      available_balance: {
         type: Sequelize.DOUBLE
       },
-      current_balence: {
+      current_balance: {
         type: Sequelize.DOUBLE
       },
       createdAt: {
