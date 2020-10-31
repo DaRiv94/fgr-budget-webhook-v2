@@ -3,7 +3,7 @@ When Starting a Postgres container locally run,
 ```
 docker run --name pg1 -e POSTGRES_PASSWORD='postgres' -e POSTGRES_USER='postgres' -e POSTGRES_DB=local_fgr_budget -v pgdata:/var/lib/postgresql/data -p 5432:5432 --network budget postgres
 ```
-
+Once this container starts you will have a db connectionstring `postgres://postgres:postgres@pg1:5432/local_fgr_budget`
 
 
 Build container if you need to

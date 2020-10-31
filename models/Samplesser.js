@@ -1,9 +1,9 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = require("../db/sequelize");
 
-class User extends Model {}
+class Sampleuser extends Model {}
 
-User.init({
+Sampleuser.init({
   // Model attributes are defined here
   id:{
     type:Sequelize.INTEGER(11),
@@ -21,10 +21,10 @@ User.init({
 }, {
   // Other model options go here
   sequelize, // We need to pass the connection instance
-  modelName: 'User' // We need to choose the model name
+  modelName: 'Sampleuser' // We need to choose the model name
 });
 
 // the defined model is the class itself
-console.log(`User Model: ${User === sequelize.models.User}`); // true
+console.log(`Sampleuser Model: ${Sampleuser === sequelize.models.Sampleuser}`); // true
 
-module.exports = User;
+module.exports = Sampleuser;
