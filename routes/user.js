@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+const Sampleuser = require('../models/Sampleuser');
 
 router.post('/', async (req, res) => {
     try {
@@ -8,7 +8,7 @@ router.post('/', async (req, res) => {
         if(req.body && req.body.name){
             name=req.body.name/////
         }
-        const jane = await User.create({ firstName: name });
+        const jane = await Sampleuser.create({ firstName: name });
         return res.json({"new_user":"xxperhaps","user":jane})
     } catch (error) {
         console.error(error)
@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 router.get('/:userId', async (req, res) => {
     const userId = req.params.userId
     try {
-        const user = await User.findAll({
+        const user = await Sampleuser.findAll({
             where: {
                 id: userId
             }
