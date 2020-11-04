@@ -29,7 +29,7 @@ services:
         container_name: webhook_backend
         build: .
         ports:
-            - "3000:3000"
+            - "3500:3500"
         volumes:
             - "/app/node_modules"
             - ".:/app"
