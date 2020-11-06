@@ -23,9 +23,11 @@ module.exports = (req, response, ThisIsATest)=>{
                 if (!ThisIsATest) {
                     account.save()
                     new_accounts.push(account);
-                    console.log("account saved:", account)
+                    // console.log("account saved:", account)
+                    console.log("account saved:", account.dataValues)
                 }else{
-                    console.log("NEW account detected, but not saved on tests:", account)
+                    console.log("NEW account detected, but not saved on tests:", account.dataValues)
+                    // console.log("NEW account detected, but not saved on tests:", account)
                 }
             }else{
                 if (!ThisIsATest) {
@@ -35,7 +37,8 @@ module.exports = (req, response, ThisIsATest)=>{
                     new_accounts.push(account);
                     console.log("UPDATED ACCOUNT IN DB")
                 }else{
-                    console.log("Accounts not updated on tests:", account)
+                    // console.log("Accounts not updated on tests:", account)
+                    console.log("Accounts not updated on tests:", account.dataValues)
                 }
             }
         }

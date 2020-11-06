@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = require("../db/sequelize");
-const {Model} = require('sequelize');
 
 class Bank extends Model {
   /**
@@ -16,7 +15,8 @@ class Bank extends Model {
 Bank.init({
   item_id: DataTypes.STRING,
   access_token: DataTypes.STRING,
-  user_id: DataTypes.STRING
+  user_id: DataTypes.STRING,
+  institution_name: DataTypes.STRING
 }, {
   sequelize,
   modelName: 'Bank',

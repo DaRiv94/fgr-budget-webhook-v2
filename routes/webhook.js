@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// const User = require('../models/User');
+const Bank = require('../models/Bank');
 
 router.post('/', async (req, res) => {
 
@@ -17,6 +17,8 @@ router.post('/', async (req, res) => {
     if (req.body.test && req.body.test==true){
         ThisIsATest=true;
     }
+    
+    
 
     //Imports
     const axios = require('axios');
@@ -38,12 +40,9 @@ router.post('/', async (req, res) => {
             // When I do this at first I will need to INSERT INTO the table
             // But then When I create the account update service I want to have a user signup and 
             //   have it add to the item table via another endpoint on this service
-            let access_token=""
-            if(req.body.item_id==process.env.MSUFCU_ITEM_ID){
-                access_token =process.env.PLAID_MSUFCU_ACCESS_TOKEN;
-            }else if(req.body.item_id==process.env.ALLY_ITEM_ID){
-                access_token =process.env.PLAID_ALLY_ACCESS_TOKEN;
-            }else{
+            let bank = await Bank.findOne({ where: { item_id: req.body.item_id } });
+
+            if(bank===null){
                 console.log("Invalid item_id");
                 if (!ThisIsATest) {
                     Sendgrid.send_Error_Notification_Email(req, error, "Invalid item_id Error");
@@ -54,12 +53,21 @@ router.post('/', async (req, res) => {
                 }
                 return res.status(400).json({detail:"Invalid plaid item_id"});
             }
+            // console.log("bank: ", bank)
 
             let client_id = process.env.PLAID_DEV_CLIENT_ID;
             let secret = process.env.PLAID_DEV_SECRET;
+            let transaction_endpoint = 'https://development.plaid.com/transactions/get';
+            // console.log("process.env.NODE_ENV: ", process.env.NODE_ENV)
+            if (process.env.NODE_ENV == 'sandbox'){
+                secret = process.env.SANDBOX_PLAID_SECRET;
+                transaction_endpoint = 'https://sandbox.plaid.com/transactions/get';
+            }
+            let access_token = bank.access_token;
             let start_date = moment().subtract(10, 'days').format('YYYY-MM-DD');
             let end_date = moment().format('YYYY-MM-DD');
             console.log("---------------------------")
+            console.log("transaction_endpoint", transaction_endpoint)
             console.log("client_id", client_id)       
             console.log("secret", secret)       
             console.log("access_token", access_token)       
@@ -69,7 +77,9 @@ router.post('/', async (req, res) => {
                 client_id, secret, access_token, start_date, end_date
             }           
                 try{
-                    response = await axios.post('https://development.plaid.com/transactions/get', data);
+                    console.log("transaction_endpoint: ", transaction_endpoint)
+                    console.log("data: ", data)
+                    response = await axios.post(transaction_endpoint, data);
 
                     let new_transactions=[]
                     console.log("Console- Fetching recent transaction data from plaid...");

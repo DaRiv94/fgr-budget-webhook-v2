@@ -31,9 +31,10 @@ module.exports= (response, ThisIsATest)=>{
 
                 if (!ThisIsATest) {
                     transaction.save();
-                    console.log("transaction saved:", transaction)
+                    console.log("transaction saved:", transaction.dataValues)
+                    // console.log("transaction saved:", transaction)
                 }else{
-                    console.log("NEW transaction detected, but not saved on tests:", transaction)
+                    console.log("NEW transaction detected, but not saved on tests:", transaction.dataValues)
                 }
                 //add to new transaction list
                 new_transactions.push(transaction);
