@@ -1,7 +1,8 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = require("../db/sequelize");
 
-class Category extends Model {
+
+class Budget extends Model {
   /**
    * Helper method for defining associations.
    * This method is not a part of Sequelize lifecycle.
@@ -11,13 +12,15 @@ class Category extends Model {
     // define association here
   }
 };
-Category.init({
-  color: DataTypes.STRING,
+Budget.init({
   name: DataTypes.STRING,
+  budget_max: DataTypes.DOUBLE,
+  budget_real: DataTypes.DOUBLE,
+  category_id: DataTypes.INTEGER,
   userid: DataTypes.INTEGER
 }, {
   sequelize,
-  modelName: 'Category',
+  modelName: 'Budget',
 });
 
-module.exports = Category
+module.exports = Budget

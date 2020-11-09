@@ -51,7 +51,7 @@ Either locally on repo or exec on container
 
 Generating a model creates the migration file and the model
 ```
-npx sequelize-cli model:generate --name Account --attributes item_id:string,account_id:string,name:string,official_name:string,available_balence:double,current_balence:double
+npx sequelize model:generate --name Account --attributes item_id:string,account_id:string,name:string,official_name:string,available_balence:double,current_balence:double
 ```
 
 running migrations
