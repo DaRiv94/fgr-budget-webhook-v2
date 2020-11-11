@@ -2,13 +2,14 @@
 //Bring in 
 const axios = require('axios');
 const EMAIL_SERVICE_URL = process.env.EMAIL_SERVICE_URL
-
+const TO_EMAIL = process.env.TO_EMAIL
 
 
 class Sendgrid{
 
     ///Send the new transactions in email
-     static async send_New_Transactions_EMAIL(req, new_transactions, to_email='dariv94@gmail.com', subject='New Transactions' ){
+    // Test: delete existing transactions within 10 days and hit webhook again 
+     static async send_New_Transactions_EMAIL(req, new_transactions, to_email=TO_EMAIL, subject='New Transactions' ){
             const  newTransactionsEmailTemplate = await require('./html_templates/newTransactionsEmailTemplate')(req,new_transactions)
             console.log("newTransactionsEmailTemplate: ",newTransactionsEmailTemplate)
             const email_message_data = {
@@ -27,14 +28,12 @@ class Sendgrid{
                 console.log("Error: ", JSON.stringify(ex))
             }
     }
-    
-    static send_Error_Notification_Email(context, req, error, subject='Error Notification',
-        to_email='dariv94@gmail.com', 
-        from_email='frankgriviera@outlook.com',
-        text=' Default text' ){
+    //Test locally by deleting a new transaction from db and using a bad item_id in request
+    static send_Error_Notification_Email(req, error, subject='Error Notification', to_email=TO_EMAIL){
             console.log("send_Error_Notification_Email CALLED")
     }
 
+    //Test locally by giving webhook_type != Transactions in request
     static send_NON_Transaction_Default_updated_Webhook_Email(context, req, subject='Non-Transaction Webhook',
     to_email='dariv94@gmail.com', 
     from_email='frankgriviera@outlook.com',

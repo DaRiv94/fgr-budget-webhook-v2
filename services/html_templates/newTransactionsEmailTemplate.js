@@ -1,6 +1,6 @@
 const {getAccountById, getBankByItemId } = require('../../helpermethods/repositoryMethods');
 
-//bring in like so.. const newTransactionsEmailTemplate = require('./newTransactionsEmailTemplate')(transactions)
+//bring in like so.. const newTransactionsEmailTemplate = require('./newTransactionsEmailTemplate')(req,new_transactions)
 module.exports = async function(req,new_transactions){
   
 
