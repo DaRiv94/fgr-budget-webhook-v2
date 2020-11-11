@@ -1,13 +1,31 @@
 //BRING IN SENDGRID SERVICE PRIvateKEY
 //Bring in 
+const axios = require('axios');
+const EMAIL_SERVICE_URL = process.env.EMAIL_SERVICE_URL
+
+
 
 class Sendgrid{
 
     ///Send the new transactions in email
-    static send_New_Transactions_EMAIL(context, req, new_transactions, to_email='dariv94@gmail.com', 
-        from_email='frankgriviera@outlook.com',
-        subject='New Transactions', text='New Transactions EMAIL Default text' ){
-            console.log("send_New_Transactions_EMAIL CALLED")
+     static async send_New_Transactions_EMAIL(req, new_transactions, to_email='dariv94@gmail.com', subject='New Transactions' ){
+            const  newTransactionsEmailTemplate = await require('./html_templates/newTransactionsEmailTemplate')(req,new_transactions)
+            console.log("newTransactionsEmailTemplate: ",newTransactionsEmailTemplate)
+            const email_message_data = {
+                to_email:to_email,
+                subject:subject,
+                fallback_text:"Could not show newTransactionsEmailTemplate in this email client",
+                html:newTransactionsEmailTemplate
+                };
+            try{
+                console.log("send_New_Transactions_EMAIL CALLED")
+                console.log(`EMAIL_SERVICE_URL + '/notification': ${EMAIL_SERVICE_URL} + '/notification'`)
+                let response = await axios.post(EMAIL_SERVICE_URL + '/notification', email_message_data);
+                //could error check to see if response.status == '200', But I am not using the response for this at the moment
+                return response;
+            }catch(ex){
+                console.log("Error: ", JSON.stringify(ex))
+            }
     }
     
     static send_Error_Notification_Email(context, req, error, subject='Error Notification',
