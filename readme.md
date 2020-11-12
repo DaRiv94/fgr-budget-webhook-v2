@@ -59,3 +59,11 @@ see https://sequelize.org/master/manual/migrations.html
 
 to make small modifications like to a specifc column see this arctle for reference
 https://dev.to/anayooleru/modifying-an-existing-sequelize-migration-1mnn
+
+----
+Using Docker Toolbox Start containers in this folder with
+
+`docker run -p 3500:3500 --name webhook_backend --network budget --env-file .env -v /app/node_modules  -v /c/Users/frank/OneDrive/Development/02_Projects_In_Production/0027_PersonalBudgetApp/fgr-budget-webhook-v2:/app webhook npm run app`
+
+`docker run -p 5432:5432 --name pg1 --network budget -v postgres_db_volume:/var/lib/postgresql/data -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=local_fgr_budget postgres:13.0`
+
