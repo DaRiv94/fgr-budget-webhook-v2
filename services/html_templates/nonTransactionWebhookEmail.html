@@ -1,85 +1,4 @@
-const {getAccountById, getBankByItemId } = require('../../helpermethods/repositoryMethods');
-
-//bring in like so.. const newTransactionsEmailTemplate = require('./newTransactionsEmailTemplate')(req,new_transactions)
-module.exports = async function(req,new_transactions){
-  
-
-  let new_transaction_html_markup = ""
-  let bank = "UNKNOWN";
-
-  for(let i =0;i<new_transactions.length;i++){
-      let account=await getAccountById(new_transactions[i].account_id)
-      let id=new_transactions[i].transaction_id;
-      let name=new_transactions[i].name;
-      let amount=new_transactions[i].amount;
-      let date = new_transactions[i].date;
-      
-      //Populate bank if I havent already
-      if(bank == "UNKNOWN"){
-        bank = await getBankByItemId(account.item_id)
-      }
-
-        //If this is not the first transaction (This is for email style purposes)
-      if(i != 0){
-        new_transaction_html_markup +=`<tr class="non_top_transaction_block">
-        <td
-            style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #4E5058;">
-            <h2
-                style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #4E5058; font-weight: bold;">
-                ACCOUNT:&nbsp;${account.name}.</h2>
-      
-            <ul style="padding: 0; margin: 0 0 10px 0; list-style-type: disc;">
-                <li style="margin:0 0 10px 30px;" class="list-item-first">
-                    <span
-                        style="font-weight: bold;">ACCOUNT_ID:</span>&nbsp;${account.account_id}
-                </li>
-                <li style="margin:0 0 10px 30px;"><span style="font-weight: bold;">ID:</span>
-                ${id}</li>
-                <li style="margin:0 0 10px 30px;"><span style="font-weight: bold;">DATE:</span>
-                ${date}</li>
-                <li style="margin:0 0 10px 30px;"><span style="font-weight: bold;">NAME:</span>
-                ${name}</li>
-                <li style="margin: 0 0 0 30px;" class="list-item-last"><span
-                        style="font-weight: bold;">AMOUNT:</span> ${amount}</li>
-            </ul>
-        </td>
-      </tr>`
-      }else{
-        new_transaction_html_markup +=`<tr>
-        <td
-            style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #4E5058;">
-            <h2
-                style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #4E5058; font-weight: bold;">
-                ACCOUNT:&nbsp;${account.name}.</h2>
-      
-            <ul style="padding: 0; margin: 0 0 10px 0; list-style-type: disc;">
-                <li style="margin:0 0 10px 30px;" class="list-item-first">
-                    <span
-                        style="font-weight: bold;">ACCOUNT_ID:</span>&nbsp;${account.account_id}
-                </li>
-                <li style="margin:0 0 10px 30px;"><span style="font-weight: bold;">ID:</span>
-                ${id}</li>
-                <li style="margin:0 0 10px 30px;"><span style="font-weight: bold;">DATE:</span>
-                ${date}</li>
-                <li style="margin:0 0 10px 30px;"><span style="font-weight: bold;">NAME:</span>
-                ${name}</li>
-                <li style="margin: 0 0 0 30px;" class="list-item-last"><span
-                        style="font-weight: bold;">AMOUNT:</span> ${amount}</li>
-            </ul>
-        </td>
-      </tr>`
-      }
- 
-  }
-  
-
-
-  
-
-  let metadata=JSON.stringify(req.body);
-  metadata = metadata.replace(",", ", ");
-
-  return `<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
     xmlns:o="urn:schemas-microsoft-com:office:office">
 
@@ -301,7 +220,7 @@ module.exports = async function(req,new_transactions){
 
         <!-- Visually Hidden Preheader Text : BEGIN -->
         <div style="max-height:0; overflow:hidden; mso-hide:all;" aria-hidden="true">
-            You Have New transactions!
+            Non-Transaction Webhook hit fgr-budget-webhook
         </div>
         <!-- Visually Hidden Preheader Text : END -->
 
@@ -346,32 +265,11 @@ module.exports = async function(req,new_transactions){
                                     style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #4E5058;">
                                     <h1 class="new_tranaction_title"
                                         style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 25px; line-height: 30px; color: #4E5058; font-weight: bold;">
-                                        New Transactions Notification</h1>
-                                    <h3
-                                        style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 20px; line-height: 30px; color: #4E5058; font-weight: normal;">
-                                        <span style="font-weight: bold;">Bank:&nbsp;${bank.institution_name}</span></h3>
-                                    <p style="margin: 0;">The following is a list of new transactions that have come
-                                        through on your accounts.</p>
+                                        Non-Transaction Webhook Notification</h1>
+
+                                    <p style="margin: 0; text-align: center;">There was a Non-Transaction webhook received by the fgr budget webhook.</p>
                                 </td>
                             </tr>
-                        </table>
-                    </td>
-                </tr>
-                <!-- 1 Column Text + Button : END -->
-
-                <!-- Clear Spacer : BEGIN -->
-                <tr>
-                    <td aria-hidden="true" height="40" style="font-size: 0px; line-height: 0px;">
-                        &nbsp;
-                    </td>
-                </tr>
-                <!-- Clear Spacer : END -->
-
-                <!-- 1 Column Text + Button : BEGIN -->
-                <tr>
-                    <td style="background-color: #E5E6E5;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                          ${new_transaction_html_markup}
                         </table>
                     </td>
                 </tr>
@@ -397,7 +295,7 @@ module.exports = async function(req,new_transactions){
                                         style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #4E5058; font-weight: bold;">
                                         METADATA:&nbsp;Incoming Webhook Body</h2>
                                     <code
-                                        style="margin: 0;">${metadata}</code>
+                                        style="margin: 0;">{"error":null, "item_id":"BAygLKlAG8tKVgeLbDzJugnk7N318wU4Red6j", "new_transactions":9999, "webhook_code":"DEFAULT_UPDATE", "webhook_type":"TRANSACTIONS", "test":false}</code>
                                 </td>
                             </tr>
                         </table>
@@ -446,4 +344,4 @@ module.exports = async function(req,new_transactions){
     </center>
 </body>
 
-</html>`}
+</html>

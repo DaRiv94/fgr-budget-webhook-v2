@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
             if(bank===null){
                 console.log("Invalid item_id");
                 if (!ThisIsATest) {
-                    Sendgrid.send_Error_Notification_Email(req, error, "Invalid item_id Error");
+                    Sendgrid.send_Error_Notification_Email(req, `Invalid item_id: ${req.body.item_id}`, "Invalid item_id Error");
                 }else{
                     console.log("------------------------------------------")
                     console.log("send_Error_Notification_Email EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
@@ -118,7 +118,7 @@ router.post('/', async (req, res) => {
     }else{
         //Test locally by giving webhook_type != Transactions in request
         if (!ThisIsATest) {
-            Sendgrid.send_NON_Transaction_Default_updated_Webhook_Email(context, req);
+            Sendgrid.send_NON_Transaction_Default_updated_Webhook_Email(req);
         }else{
             console.log("------------------------------------------")
             console.log("send_NON_Transaction_Default_updated_Webhook_Email EMAIL NOT SENT DURING TEST WEBHOOK REQUESTS")
