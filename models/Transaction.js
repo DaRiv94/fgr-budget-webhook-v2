@@ -23,7 +23,8 @@ Transaction.init({
   date: DataTypes.DATE,
   pending: DataTypes.BOOLEAN,
   transaction_id: DataTypes.STRING,
-  transaction_type: DataTypes.STRING
+  transaction_type: DataTypes.STRING,
+  user_id: DataTypes.STRING,
 }, {
   sequelize,
   modelName: 'Transaction',

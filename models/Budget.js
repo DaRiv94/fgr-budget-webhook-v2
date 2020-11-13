@@ -17,7 +17,7 @@ Budget.init({
   budget_max: DataTypes.DOUBLE,
   budget_real: DataTypes.DOUBLE,
   category_id: DataTypes.INTEGER,
-  userid: DataTypes.INTEGER
+  userid: DataTypes.STRING
 }, {
   sequelize,
   modelName: 'Budget',

@@ -15,7 +15,8 @@ Account.init({
   name: DataTypes.STRING,
   official_name: DataTypes.STRING,
   available_balance: DataTypes.DOUBLE,
-  current_balance: DataTypes.DOUBLE
+  current_balance: DataTypes.DOUBLE,
+  user_id: DataTypes.STRING,
 }, {
   sequelize,
   modelName: 'Account',

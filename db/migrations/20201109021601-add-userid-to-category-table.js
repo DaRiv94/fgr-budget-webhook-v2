@@ -5,7 +5,7 @@ module.exports = {
     return queryInterface.sequelize.transaction(t => {
       return Promise.all([
         queryInterface.addColumn('Categories', 'userid', {
-          type: Sequelize.DataTypes.INTEGER
+          type: Sequelize.DataTypes.STRING
         }, { transaction: t })
       ]);
     });
