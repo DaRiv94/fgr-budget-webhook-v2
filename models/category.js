@@ -14,7 +14,7 @@ class Category extends Model {
 Category.init({
   color: DataTypes.STRING,
   name: DataTypes.STRING,
-  userid: DataTypes.STRING
+  user_id: DataTypes.STRING
 }, {
   sequelize,
   modelName: 'Category',
