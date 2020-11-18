@@ -16,6 +16,9 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: false
       },
+      email_verification_token: {
+        type: DataTypes.STRING,
+      },
       email_verified: {
         type: DataTypes.BOOLEAN,
         allowNull: false
