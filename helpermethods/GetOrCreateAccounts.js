@@ -1,4 +1,5 @@
 const Account = require('../models/Account');
+const { getBankByItemId } = require('./repositoryMethods');
 
 module.exports = (req, response, ThisIsATest)=>{
     console.log("GetOrCreateAccount called")
@@ -11,13 +12,16 @@ module.exports = (req, response, ThisIsATest)=>{
             let account = await Account.findOne({ where: { account_id: response.data.accounts[i].account_id } });
             if (account === null){
                 console.log("Account NOT in DB")
+                let bank = await getBankByItemId(req.body.item_id);
+
                 account = await Account.build({
                     item_id:req.body.item_id,
                     account_id: response.data.accounts[i].account_id,
                     name: response.data.accounts[i].name,
                     official_name: response.data.accounts[i].official_name,
                     available_balance: response.data.accounts[i].balances.available,
-                    current_balance: response.data.accounts[i].balances.current               
+                    current_balance: response.data.accounts[i].balances.current,
+                    user_id: bank.user_id       
                 });
                
                 if (!ThisIsATest) {
