@@ -10,8 +10,15 @@ class Transaction extends Model {
    */
   static associate(models) {
     // define association here
-    Account.hasMany(Transaction);
-    Transaction.belongsTo(Account);
+    // Account.hasMany(Transaction);
+    // Transaction.belongsTo(Account);
+
+    // Transaction.belongsToMany(models.Category, {
+    //   through: 'CategoryTransaction',
+    //   as: 'category',
+    //   foreignKey: 'transaction_id',
+    //   otherKey: 'category_id'
+    // });
   }
 };
 

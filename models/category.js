@@ -9,6 +9,12 @@ class Category extends Model {
    */
   static associate(models) {
     // define association here
+    // Category.belongsToMany(models.Transaction, {
+    //   through: 'CategoryTransaction',
+    //   as: 'transaction',
+    //   foreignKey: 'category_id',
+    //   otherKey: 'transaction_id'
+    // });
   }
 };
 Category.init({
