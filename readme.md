@@ -20,6 +20,18 @@ docker run -it --network budget -v ${pwd}:/app -v/app/node_modules  --env-file .
 `docker exec -it <mycontainer> npx sequelize db:migrate`
 
 
+----
+ENV
+```
+DATABASE_URL=postgres://postgres:postgres@pg1:5432/local_fgr_budget
+NODE_ENV=sandbox
+PLAID_DEV_CLIENT_ID=<PLAID_DEV_CLIENT_ID>
+SANDBOX_PLAID_SECRET=<SANDBOX_PLAID_SECRET>
+PLAID_DEV_SECRET=<PLAID_DEV_SECRET>
+EMAIL_SERVICE_URL=http://fgr_budget_email_service_web_1:5500
+TO_EMAIL=<Your_email>
+```
+
 
 
 Start up docker compose
