@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = require("../db/sequelize");
 
 class CategoryTransaction extends Model {
   /**

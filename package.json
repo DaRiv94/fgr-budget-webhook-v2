@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"No tests yet...\"",
     "start": "node index.js",
-    "app": "nodemon --legacy-watch index.js"
+    "app": "nodemon --legacy-watch index.js",
+    "clean_data": "node clean_all_data.js"
   },
   "dependencies": {
     "axios": "^0.19.2",
