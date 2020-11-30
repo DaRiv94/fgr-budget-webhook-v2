@@ -23,18 +23,12 @@ module.exports = async function(req,new_transactions){
       if(i != 0){
         new_transaction_html_markup +=`<tr class="non_top_transaction_block">
         <td
-            style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #4E5058;">
+            style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #3f51b5;">
             <h2
-                style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #4E5058; font-weight: bold;">
+                style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #3f51b5; font-weight: bold;">
                 ACCOUNT:&nbsp;${account.name}.</h2>
       
             <ul style="padding: 0; margin: 0 0 10px 0; list-style-type: disc;">
-                <li style="margin:0 0 10px 30px;" class="list-item-first">
-                    <span
-                        style="font-weight: bold;">ACCOUNT_ID:</span>&nbsp;${account.account_id}
-                </li>
-                <li style="margin:0 0 10px 30px;"><span style="font-weight: bold;">ID:</span>
-                ${id}</li>
                 <li style="margin:0 0 10px 30px;"><span style="font-weight: bold;">DATE:</span>
                 ${date}</li>
                 <li style="margin:0 0 10px 30px;"><span style="font-weight: bold;">NAME:</span>
@@ -47,18 +41,12 @@ module.exports = async function(req,new_transactions){
       }else{
         new_transaction_html_markup +=`<tr>
         <td
-            style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #4E5058;">
+            style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #3f51b5;">
             <h2
-                style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #4E5058; font-weight: bold;">
+                style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #3f51b5; font-weight: bold;">
                 ACCOUNT:&nbsp;${account.name}.</h2>
       
             <ul style="padding: 0; margin: 0 0 10px 0; list-style-type: disc;">
-                <li style="margin:0 0 10px 30px;" class="list-item-first">
-                    <span
-                        style="font-weight: bold;">ACCOUNT_ID:</span>&nbsp;${account.account_id}
-                </li>
-                <li style="margin:0 0 10px 30px;"><span style="font-weight: bold;">ID:</span>
-                ${id}</li>
                 <li style="margin:0 0 10px 30px;"><span style="font-weight: bold;">DATE:</span>
                 ${date}</li>
                 <li style="margin:0 0 10px 30px;"><span style="font-weight: bold;">NAME:</span>
@@ -250,8 +238,8 @@ module.exports = async function(req,new_transactions){
 
         .button-td-primary:hover,
         .button-a-primary:hover {
-            background: #4E5058 !important;
-            border-color: #4E5058 !important;
+            background: #3f51b5 !important;
+            border-color: #3f51b5 !important;
         }
 
         /* Media Queries */
@@ -268,11 +256,11 @@ module.exports = async function(req,new_transactions){
 
         .new_tranaction_title {
             text-align: center;
-            color: #48B749
+            color: #FFFFFF
         }
 
         .non_top_transaction_block {
-            border-top: #4E5058 solid 5px;
+            border-top: #3f51b5 solid 5px;
         }
 
 
@@ -285,16 +273,16 @@ module.exports = async function(req,new_transactions){
 
 </head>
 <!--
-	The email background color (#48B749) is defined in three places:
+	The email background color (#FFFFFF) is defined in three places:
 	1. body tag: for most email clients
 	2. center tag: for Gmail and Inbox mobile apps and web versions of Gmail, GSuite, Inbox, Yahoo, AOL, Libero, Comcast, freenet, Mail.ru, Orange.fr
 	3. mso conditional: For Windows 10 Mail
 -->
 
-<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #48B749;">
-    <center role="article" aria-roledescription="email" lang="en" style="width: 100%; background-color: #48B749;">
+<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #FFFFFF;">
+    <center role="article" aria-roledescription="email" lang="en" style="width: 100%; background-color: #FFFFFF;">
         <!--[if mso | IE]>
-    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #48B749;">
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #FFFFFF;">
     <tr>
     <td>
     <![endif]-->
@@ -343,12 +331,12 @@ module.exports = async function(req,new_transactions){
                         <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                             <tr>
                                 <td
-                                    style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #4E5058;">
+                                    style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #3f51b5;">
                                     <h1 class="new_tranaction_title"
-                                        style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 25px; line-height: 30px; color: #4E5058; font-weight: bold;">
+                                        style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 25px; line-height: 30px; color: #3f51b5; font-weight: bold;">
                                         New Transactions Notification</h1>
                                     <h3
-                                        style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 20px; line-height: 30px; color: #4E5058; font-weight: normal;">
+                                        style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 20px; line-height: 30px; color: #3f51b5; font-weight: normal;">
                                         <span style="font-weight: bold;">Bank:&nbsp;${bank.institution_name}</span></h3>
                                     <p style="margin: 0;">The following is a list of new transactions that have come
                                         through on your accounts.</p>
@@ -392,9 +380,9 @@ module.exports = async function(req,new_transactions){
                         <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                             <tr>
                                 <td
-                                    style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #4E5058;">
+                                    style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #3f51b5;">
                                     <h2
-                                        style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #4E5058; font-weight: bold;">
+                                        style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 18px; line-height: 22px; color: #3f51b5; font-weight: bold;">
                                         METADATA:&nbsp;Incoming Webhook Body</h2>
                                     <code
                                         style="margin: 0;">${metadata}</code>
@@ -413,12 +401,12 @@ module.exports = async function(req,new_transactions){
                 style="margin: auto;">
                 <tr>
                     <td
-                        style="padding: 20px; font-family: sans-serif; font-size: 12px; line-height: 15px; text-align: center; color: #E5E6E5;">
-                        <webversion>Go To <a style="color: #E5E6E5; text-decoration: underline; font-weight: bold;"
-                                href="https://frankieriviera.com">FGR Budget App</a>
+                        style="padding: 20px; font-family: sans-serif; font-size: 12px; line-height: 15px; text-align: center; color: #3f51b5;">
+                        <webversion>Go To <a style="color: #3f51b5; text-decoration: underline; font-weight: bold;"
+                                href="https://fgr-kubernetes-demo.northcentralus.cloudapp.azure.com">FGR Budget App</a>
                         </webversion>
                         <br><br>
-                        <webversion>Go To <a style="color: #E5E6E5; text-decoration: underline; font-weight: bold;"
+                        <webversion>Go To <a style="color: #3f51b5; text-decoration: underline; font-weight: bold;"
                                 href="https://frankieriviera.com">FrankieRiviera.com</a>
                         </webversion>
                         <br><br>
