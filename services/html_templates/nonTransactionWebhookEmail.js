@@ -1,6 +1,3 @@
-
-
-//bring in like so.. const nonTransactionWebhookEmail = require('./nonTransactionWebhookEmail')(req)
 module.exports = function(req){
 
   let metadata=JSON.stringify(req.body);

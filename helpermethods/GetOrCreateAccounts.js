@@ -2,12 +2,11 @@ const Account = require('../models/Account');
 const { getBankByItemId } = require('./repositoryMethods');
 
 module.exports = (req, response, ThisIsATest)=>{
-    console.log("GetOrCreateAccount called")
     return new Promise(async (resolve,reject)=>{
 
         let new_accounts=[];
         for(let i =0; i<response.data.accounts.length;i++){
-            console.log("Console: account_id:",response.data.accounts[i].account_id);
+            // console.log("Console: account_id:",response.data.accounts[i].account_id);
             
             let account = await Account.findOne({ where: { account_id: response.data.accounts[i].account_id } });
             if (account === null){
@@ -28,7 +27,7 @@ module.exports = (req, response, ThisIsATest)=>{
                     account.save()
                     new_accounts.push(account);
                     // console.log("account saved:", account)
-                    console.log("account saved:", account.dataValues)
+                    // console.log("account saved:", account.dataValues)
                 }else{
                     console.log("NEW account detected, but not saved on tests:", account.dataValues)
                     // console.log("NEW account detected, but not saved on tests:", account)

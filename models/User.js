@@ -15,7 +15,6 @@ User.init({
   modelName: 'User' // We need to choose the model name
 });
 
-// the defined model is the class itself
-console.log(`User Model: ${User === sequelize.models.User}`); // true
+console.log(`User Model: ${User === sequelize.models.User}`);
 
 module.exports = User;

@@ -10,16 +10,12 @@ router.post('/', async (req, res) => {
         return res.status(400).json({detail:"plaid webhook body required"});
     }
 
-    let context={}
-
     //Check if The webhook is a test
     ThisIsATest=false;
     if (req.body.test && req.body.test==true){
         ThisIsATest=true;
     }
     
-    
-
     //Imports
     const axios = require('axios');
     const moment = require('moment');
@@ -36,10 +32,6 @@ router.post('/', async (req, res) => {
 
     if (req.body.webhook_type=="TRANSACTIONS" && req.body.webhook_code=="DEFAULT_UPDATE"){
 
-            //I should create an Item table, with id, plaid_item_id, plaid_item_access_token
-            // When I do this at first I will need to INSERT INTO the table
-            // But then When I create the account update service I want to have a user signup and 
-            //   have it add to the item table via another endpoint on this service
             let bank = await Bank.findOne({ where: { item_id: req.body.item_id } });
 
             if(bank===null){
@@ -66,25 +58,16 @@ router.post('/', async (req, res) => {
             let access_token = bank.access_token;
             let start_date = moment().subtract(10, 'days').format('YYYY-MM-DD');
             let end_date = moment().format('YYYY-MM-DD');
-            console.log("---------------------------")
-            console.log("transaction_endpoint", transaction_endpoint)
-            console.log("client_id", client_id)       
-            console.log("secret", secret)       
-            console.log("access_token", access_token)       
-            console.log("start_date", start_date)       
-            console.log("end_date", end_date)       
+   
             data={
                 client_id, secret, access_token, start_date, end_date
             }           
                 try{
-                    console.log("transaction_endpoint: ", transaction_endpoint)
-                    console.log("data: ", data)
                     response = await axios.post(transaction_endpoint, data);
 
                     let new_transactions=[]
                     console.log("Console- Fetching recent transaction data from plaid...");
                 
-                    //remove accounts in mongo compass to test this functionality.
                     if(response.data && response.data.accounts && response.data.transactions){
                         await GetOrCreateAccount(req, response, ThisIsATest);
                         new_transactions = await GetOrCreateTransactions(response, ThisIsATest)

@@ -64,7 +64,6 @@ async function deleteObjectData(Model, model_name, destroy=true){
                     if(destroy){
                      await objects[i].destroy();
                     }
-                    
             }
             console.log(`removed ${objects_length} ${model_name +'s'}`)
         }else{
@@ -74,5 +73,4 @@ async function deleteObjectData(Model, model_name, destroy=true){
     }catch(e){
         return false
     }
-    
 }

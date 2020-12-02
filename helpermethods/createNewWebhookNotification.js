@@ -1,7 +1,6 @@
 const WebhookNotification = require('../models/WebhookNotification');
 
 module.exports = async ( req, ThisIsATest)=>{
-    console.log("createNewWebhookNotification called!")
 
     let webhookNotification={}
     let webhook_type = req.body.webhook_type;

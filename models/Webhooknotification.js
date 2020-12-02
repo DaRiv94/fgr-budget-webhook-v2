@@ -1,8 +1,6 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = require("../db/sequelize");
 
-
-
   class WebhookNotification extends Model {
     /**
      * Helper method for defining associations.
@@ -26,7 +24,7 @@ const sequelize = require("../db/sequelize");
     modelName: 'WebhookNotification',
   });
 
-  // the defined model is the class itself
-  console.log(`WebhookNotification Model: ${WebhookNotification === sequelize.models.WebhookNotification}`); // true
+
+  console.log(`WebhookNotification Model: ${WebhookNotification === sequelize.models.WebhookNotification}`);
 
   module.exports = WebhookNotification;

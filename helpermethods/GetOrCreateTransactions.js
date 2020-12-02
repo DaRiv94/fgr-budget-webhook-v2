@@ -2,13 +2,11 @@ const Transaction = require('../models/Transaction');
 const {getAccountById } = require('./repositoryMethods');
 
 module.exports= (response, ThisIsATest)=>{
-    console.log("GetOrCreateTransaction Called")
-    // return [{"transaction":true}]
     return new Promise(async (resolve,reject)=>{
 
         let new_transactions=[]
         for(let i =0; i<response.data.transactions.length;i++){
-            console.log("transaction_id:",response.data.transactions[i].transaction_id);
+            // console.log("transaction_id:",response.data.transactions[i].transaction_id);
 
             let transaction = await Transaction.findOne({ where: {transaction_id:response.data.transactions[i].transaction_id} });
             if (transaction === null){
@@ -34,7 +32,7 @@ module.exports= (response, ThisIsATest)=>{
 
                 if (!ThisIsATest) {
                     transaction.save();
-                    console.log("transaction saved:", transaction.dataValues)
+                    // console.log("transaction saved:", transaction.dataValues)
                     // console.log("transaction saved:", transaction)
                 }else{
                     console.log("NEW transaction detected, but not saved on tests:", transaction.dataValues)

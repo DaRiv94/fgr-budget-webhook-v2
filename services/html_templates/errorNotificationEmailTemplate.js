@@ -1,6 +1,3 @@
-
-
-//bring in like so.. const errorNotificationEmailTemplate = require('./errorNotificationEmailTemplate')(req,error)
 module.exports = function (req, error) {
 
   error_markup = `                              
