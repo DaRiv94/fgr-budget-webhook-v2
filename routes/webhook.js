@@ -56,7 +56,8 @@ router.post('/', async (req, res) => {
                 transaction_endpoint = 'https://sandbox.plaid.com/transactions/get';
             }
             let access_token = bank.access_token;
-            let start_date = moment().subtract(10, 'days').format('YYYY-MM-DD');
+            let start_date = moment().subtract(90, 'days').format('YYYY-MM-DD'); //Get transactions 90s back
+            // let start_date = moment().subtract(10, 'days').format('YYYY-MM-DD'); //Get transactions 10s back
             let end_date = moment().format('YYYY-MM-DD');
    
             data={

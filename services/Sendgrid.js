@@ -7,7 +7,7 @@ const TO_EMAIL = process.env.TO_EMAIL
 class Sendgrid{
 
     ///Send the new transactions in email
-    // Test: delete existing transactions within 10 days and hit webhook again 
+    // Test: delete existing transactions within 90 days and hit webhook again 
      static async send_New_Transactions_EMAIL(req, new_transactions, to_email, subject='New Transactions' ){
 
             if(to_email==null){
