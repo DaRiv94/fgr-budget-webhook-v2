@@ -27,15 +27,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and tag images based on date, SHA, and latest
+      - name: Build, tag, and push images based on date, SHA, and latest
         run: |
           CURRENT_DATETIME=$(date "+%Y-%m-%d-%H-%M-%S")
           docker build -t dariv94/kubebud_webhook:$CURRENT_DATETIME .
           docker tag dariv94/kubebud_webhook:$CURRENT_DATETIME dariv94/kubebud_webhook:$GITHUB_SHA
           docker tag dariv94/kubebud_webhook:$CURRENT_DATETIME dariv94/kubebud_webhook:latest
-
-      - name: Push images to docker hub
-        run: |
           docker push dariv94/kubebud_webhook:$CURRENT_DATETIME 
           docker push dariv94/kubebud_webhook:$GITHUB_SHA
           docker push dariv94/kubebud_webhook:latest
