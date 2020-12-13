@@ -8,8 +8,8 @@ on:
     branches: [ master ]
 
 jobs:
-  setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
+  setup-build-tag-push-docker-images:
+    name: Build, Tag, Push Docker Images
     runs-on: ubuntu-latest
 
     steps:
@@ -28,12 +28,12 @@ jobs:
           docker build -t dariv94/kubebud_webhook:$CURRENT_DATETIME .
 
       - name: Tag a couple other helpful images
-        run: 
+        run: |
           docker tag dariv94/kubebud_webhook:$CURRENT_DATETIME dariv94/kubebud_webhook:${GITHUB_SHA}
           docker tag dariv94/kubebud_webhook:$CURRENT_DATETIME dariv94/kubebud_webhook:latest
 
       - name: Push images to docker hub
-        run: 
+        run: |
           docker push dariv94/kubebud_webhook:$CURRENT_DATETIME 
           docker push dariv94/kubebud_webhook:${GITHUB_SHA} 
           docker push dariv94/kubebud_webhook:latest
