@@ -16,9 +16,8 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: get git GITHUB_SHA
+      - name: get git sha 
         run: |
-          echo GITHUBSHA: $GITHUB_SHA
           echo "{GITHUBSHA}": ${GITHUB_SHA}
           echo "{{GITHUBSHA}}": ${{GITHUB_SHA}}
     
