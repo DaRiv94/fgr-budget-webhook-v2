@@ -1,7 +1,7 @@
 
 # FGR Budget Webhook
 
-[<img src="./images/1000x1000_FGR_FINANCE.png" width="100" >](https://fgr-kubernetes-demo.northcentralus.cloudapp.azure.com)
+[<img src="./images/1000x1000_FGR_FINANCE.png" width="100" >](http://kubernetes-demo.frankieriviera.com)
 
 This is the webhook microservice used in the [Kubernetes Demo](https://frankieriviera.com/portfolio/kubernetes-demo) by [Frankie Riviera](https://frankieriviera.com)
 
