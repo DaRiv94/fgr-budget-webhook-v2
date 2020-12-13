@@ -401,7 +401,7 @@ module.exports = async function(req,new_transactions){
                     <td
                         style="padding: 20px; font-family: sans-serif; font-size: 12px; line-height: 15px; text-align: center; color: #3f51b5;">
                         <webversion>Go To <a style="color: #3f51b5; text-decoration: underline; font-weight: bold;"
-                                href="https://fgr-kubernetes-demo.northcentralus.cloudapp.azure.com">FGR Budget App</a>
+                                href="http://kubernetes-demo.frankieriviera.com/">FGR Budget App</a>
                         </webversion>
                         <br><br>
                         <webversion>Go To <a style="color: #3f51b5; text-decoration: underline; font-weight: bold;"
