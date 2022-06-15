@@ -25,6 +25,18 @@ services:
             - POSTGRES_DB=local_fgr_budget
         volumes:
             - "postgres_db_volume:/var/lib/postgresql/data"
+    # webhook:
+    #     container_name: webhook_backend
+    #     image: dariv94/kubebud_webhook:1.2.0
+    #     ports:
+    #         - "3500:3500"
+    #     volumes:
+    #         - "/app/node_modules"
+    #         - ".:/app"
+    #     command: npm run app
+    #     networks:
+    #         - budget
+    #     env_file: .env
     webhook:
         container_name: webhook_backend
         build: .
