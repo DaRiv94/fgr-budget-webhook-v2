@@ -5,6 +5,7 @@ const app = express()
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const webhookRoutes = require('./routes/webhook');
+const healthRoutes = require('./routes/healthy');
 
 
 
@@ -33,6 +34,7 @@ app.use(express.json());
 
 //Routes
 app.use('/webhook',webhookRoutes);
+app.use('/healthy',healthRoutes);
 
 
 app.get('/', (req, res) => {

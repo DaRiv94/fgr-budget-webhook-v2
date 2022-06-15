@@ -37,9 +37,19 @@ TO_EMAIL=<Your_email>
 
 **TO_EMAIL** Default email that email notifications should be sent do.
 
+
+### Create local volume if not already created
+`docker volume create --name=postgres_db_volume`
+
 ### Starting app
 Once you have your .env file at the root of your project you can start up the webhook service and postgres db for development with 
 `docker-compose up`
+
+### Connect for development to db from local machine 
+`postgres://postgres:postgres@127.0.0.1:5432/local_fgr_budget`
+
+### Connect for development to db from another container
+`postgres://postgres:postgres@pg1:5432/local_fgr_budget`
 
 ---
 
